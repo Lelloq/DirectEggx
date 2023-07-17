@@ -1,6 +1,6 @@
-#include "windowing/RenderWindow.h"
+#include "Engine/WindowContainer.h"
 
-bool RenderWindow::Init(HINSTANCE hInstance, std::string title, std::string wClass, int width, int height)
+bool RenderWindow::Init(WindowContainer* wc, HINSTANCE hInstance, std::string title, std::string wClass, int width, int height)
 {
 	_hInstance = hInstance;
 	_width = width;
@@ -18,7 +18,7 @@ bool RenderWindow::Init(HINSTANCE hInstance, std::string title, std::string wCla
 		_width, _height,
 		NULL, NULL,
 		_hInstance,
-		nullptr);
+		wc);
 
 	if(_handle == NULL)
 	{
@@ -66,11 +66,48 @@ bool RenderWindow::ProcessMessages()
 	return true;
 }
 
+//Redirects input messages to the active window
+LRESULT HandleMsgRedirect(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch(uMsg)
+	{
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		return 0;
+	default:
+		WindowContainer* const pWindow = reinterpret_cast<WindowContainer*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+		return pWindow->WindowProc(hwnd, uMsg, wParam, lParam);
+	}
+}
+
+//Initialization of the input messages when a window is created
+LRESULT CALLBACK HandleMsgSetup(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_NCCREATE:
+	{
+		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
+		WindowContainer* pWindow = reinterpret_cast<WindowContainer*>(pCreate->lpCreateParams);
+		if(pWindow == nullptr)
+		{
+			Logger::Log("CRITICAL ERROR: Pointer to window container is null during WM_NCCREATE");
+			exit(-1);
+		}
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWindow));
+		SetWindowLongPtr(hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HandleMsgRedirect));
+		return pWindow->WindowProc(hwnd, uMsg, wParam, lParam);
+	}
+	default:
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+}
+
 void RenderWindow::RegisterWindowClass()
 {
 	WNDCLASSEX wc = {};
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	wc.lpfnWndProc = DefWindowProc;
+	wc.lpfnWndProc = HandleMsgSetup;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = _hInstance;

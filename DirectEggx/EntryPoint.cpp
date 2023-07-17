@@ -1,4 +1,4 @@
-#include "windowing/RenderWindow.h"
+#include "Engine/Engine.h"
 
 int APIENTRY wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -6,9 +6,9 @@ int APIENTRY wWinMain(
 	_In_ LPWSTR     lpCmdLine,
 	_In_ int       nCmdShow) 
 {
-	RenderWindow window;
-	window.Init(hInstance, "Test", "Test Class", 1280, 720);
-	while(window.ProcessMessages() == true)
+	Engine engine;
+	engine.Init(hInstance, "Test", "Test Class", 1280, 720);
+	while(engine.ProcessMessages() == true)
 	{
 	}
 	return 0;

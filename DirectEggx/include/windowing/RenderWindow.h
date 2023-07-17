@@ -1,6 +1,9 @@
 #pragma once
 #include "logger/Logger.h"
 
+class WindowContainer;
+
+//Win32 window stuff, I think this can be detached later on and be used for something else
 class RenderWindow
 {
 public:
@@ -8,6 +11,7 @@ public:
 	 * \fn bool Init(HINSTANCE hInstance, std::string title, std::string wClass, int width, int height).
 	 * \brief Initialises the window using win32.
 	 * 
+	 * \param wc pointer to the window container
 	 * \param hInstance Window instance
 	 * \param title Window title
 	 * \param wClass Window class
@@ -15,7 +19,7 @@ public:
 	 * \param height Height
 	 * \return 
 	 */
-	bool Init(HINSTANCE hInstance, std::string title, std::string wClass, int width, int height);
+	bool Init(WindowContainer* wc, HINSTANCE hInstance, std::string title, std::string wClass, int width, int height);
 
 	/**
 	 * \fn bool ProcessMessages().

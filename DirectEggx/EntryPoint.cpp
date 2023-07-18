@@ -10,6 +10,7 @@ int APIENTRY wWinMain(
 	engine.Init(hInstance, "Test", "Test Class", 1280, 720);
 	while(engine.ProcessMessages() == true)
 	{
+		engine.Update();
 	}
 	return 0;
 };

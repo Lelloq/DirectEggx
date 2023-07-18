@@ -156,6 +156,10 @@
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="src\Engine\Engine.cpp" />
     <ClCompile Include="src\Engine\WindowContainer.cpp" />
+    <ClCompile Include="src\Input\Keyboard.cpp" />
+    <ClCompile Include="src\Input\KeyboardEvent.cpp" />
+    <ClCompile Include="src\Input\Mouse.cpp" />
+    <ClCompile Include="src\Input\MouseEvent.cpp" />
     <ClCompile Include="src\logger\Logger.cpp" />
     <ClCompile Include="src\logger\StringConverter.cpp" />
     <ClCompile Include="src\windowing\RenderWindow.cpp" />
@@ -163,6 +167,10 @@
   <ItemGroup>
     <ClInclude Include="include\Engine\Engine.h" />
     <ClInclude Include="include\Engine\WindowContainer.h" />
+    <ClInclude Include="include\Input\Keyboard.h" />
+    <ClInclude Include="include\Input\KeyboardEvent.h" />
+    <ClInclude Include="include\Input\Mouse.h" />
+    <ClInclude Include="include\Input\MouseEvent.h" />
     <ClInclude Include="include\logger\Logger.h" />
     <ClInclude Include="include\logger\StringConverter.h" />
     <ClInclude Include="include\windowing\RenderWindow.h" />

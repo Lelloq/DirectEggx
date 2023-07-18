@@ -57,6 +57,11 @@ void Mouse::OnMouseMove(int x, int y)
 	_eventBuffer.push(MouseEvent(MouseEvent::EventType::Move, x, y));
 }
 
+void Mouse::OnMouseMoveRaw(int x, int y)
+{
+	_eventBuffer.push(MouseEvent(MouseEvent::EventType::RAW_MOVE, x, y));
+}
+
 MouseEvent Mouse::ReadEvent()
 {
 	if (_eventBuffer.empty()) return MouseEvent();

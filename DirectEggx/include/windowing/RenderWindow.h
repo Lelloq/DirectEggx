@@ -29,6 +29,8 @@ public:
 	 */
 	bool ProcessMessages();
 
+	inline HWND GetHWND() const { return _handle; }
+
 	/**
 	 * \brief Window destructor.
 	 * 

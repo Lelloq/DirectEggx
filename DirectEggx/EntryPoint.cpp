@@ -7,11 +7,13 @@ int APIENTRY wWinMain(
 	_In_ int       nCmdShow)
 {
 	Engine engine;
-	engine.Init(hInstance, "Test", "Test Class", 1280, 720);
-	while (engine.ProcessMessages() == true)
+	if (engine.Init(hInstance, "Test", "Test Class", 1280, 720))
 	{
-		engine.Update();
-		engine.Render();
+		while (engine.ProcessMessages() == true)
+		{
+			engine.Update();
+			engine.Render();
+		}
 	}
 	return 0;
 };

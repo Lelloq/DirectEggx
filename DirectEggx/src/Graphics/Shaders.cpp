@@ -1,6 +1,6 @@
 #include "Graphics/Shaders.h"
 
-bool VertexShader::Initialize(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::wstring shaderPath, D3D11_INPUT_ELEMENT_DESC* layoutDesc, UINT numElements)
+bool VertexShader::Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::wstring shaderPath, D3D11_INPUT_ELEMENT_DESC* layoutDesc, UINT numElements)
 {
 	HRESULT hr = D3DReadFileToBlob(shaderPath.c_str(), _shader_buffer.GetAddressOf());
 	if FAILED(hr)
@@ -27,7 +27,7 @@ bool VertexShader::Initialize(Microsoft::WRL::ComPtr<ID3D11Device>& device, std:
 
 	if (FAILED(hr))
 	{
-		Logger::Log(hr, "Failed to create input layout");
+		Logger::Log(hr, "Failed to create input layout: ");
 		return false;
 	}
 
@@ -49,7 +49,7 @@ ID3D11InputLayout* VertexShader::GetInputLayout()
 	return _inputLayout.Get();
 }
 
-bool PixelShader::Initialize(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::wstring shaderPath)
+bool PixelShader::Initi(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::wstring shaderPath)
 {
 	HRESULT hr = D3DReadFileToBlob(shaderPath.c_str(), _shader_buffer.GetAddressOf());
 	if FAILED(hr)

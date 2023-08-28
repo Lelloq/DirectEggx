@@ -12,10 +12,10 @@ public:
 	enum EventType
 	{
 		LPress = 0, LRelease,
-		RPress,		RRelease,
-		MPress,		MRelease,
-		WheelUp,	WheelDown,
-		Move,		RAW_MOVE,
+		RPress, RRelease,
+		MPress, MRelease,
+		WheelUp, WheelDown,
+		Move, RAW_MOVE,
 		Invalid
 	};
 private:

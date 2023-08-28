@@ -14,13 +14,13 @@ bool RenderWindow::Init(WindowContainer* wc, HINSTANCE hInstance, std::string ti
 
 	_handle = CreateWindowEx(0, _window_class_wide.c_str(), _window_title_wide.c_str(),
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		0,0,
+		0, 0,
 		_width, _height,
 		NULL, NULL,
 		_hInstance,
 		wc);
 
-	if(_handle == NULL)
+	if (_handle == NULL)
 	{
 		Logger::Log(GetLastError(), "CreateWindowEX Faile for window: " + _window_title);
 		return false;
@@ -35,7 +35,7 @@ bool RenderWindow::Init(WindowContainer* wc, HINSTANCE hInstance, std::string ti
 
 RenderWindow::~RenderWindow()
 {
-	if(_handle != NULL)
+	if (_handle != NULL)
 	{
 		UnregisterClass(_window_class_wide.c_str(), _hInstance);
 		DestroyWindow(_handle);
@@ -53,9 +53,9 @@ bool RenderWindow::ProcessMessages()
 		DispatchMessage(&msg);
 	}
 
-	if(msg.message == WM_NULL)
+	if (msg.message == WM_NULL)
 	{
-		if(!IsWindow(_handle))
+		if (!IsWindow(_handle))
 		{
 			_handle = NULL;
 			UnregisterClass(_window_class_wide.c_str(), _hInstance);
@@ -69,7 +69,7 @@ bool RenderWindow::ProcessMessages()
 //Redirects input messages to the active window
 LRESULT HandleMsgRedirect(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
+	switch (uMsg)
 	{
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
@@ -89,7 +89,7 @@ LRESULT CALLBACK HandleMsgSetup(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	{
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
 		WindowContainer* pWindow = reinterpret_cast<WindowContainer*>(pCreate->lpCreateParams);
-		if(pWindow == nullptr)
+		if (pWindow == nullptr)
 		{
 			Logger::Log("CRITICAL ERROR: Pointer to window container is null during WM_NCCREATE");
 			exit(-1);

@@ -16,13 +16,13 @@ public:
 	void OnMouseMove(int x, int y);
 	void OnMouseMoveRaw(int x, int y);
 
-	[[nodiscard]] inline bool IsLeftDown()		   { return _isLeftDown; };
-	[[nodiscard]] inline bool IsMiddleDown()	   { return _isMiddleDown; };
-	[[nodiscard]] inline bool IsRightDown()		   { return _isRightDown; };
+	[[nodiscard]] inline bool IsLeftDown() { return _isLeftDown; };
+	[[nodiscard]] inline bool IsMiddleDown() { return _isMiddleDown; };
+	[[nodiscard]] inline bool IsRightDown() { return _isRightDown; };
 
-	[[nodiscard]] inline int GetPosX()			   { return _x; };
-	[[nodiscard]] inline int GetPosY()			   { return _y; };
-	[[nodiscard]] inline MousePoint GetPos()	   { return { _x, _y }; };
+	[[nodiscard]] inline int GetPosX() { return _x; };
+	[[nodiscard]] inline int GetPosY() { return _y; };
+	[[nodiscard]] inline MousePoint GetPos() { return { _x, _y }; };
 
 	[[nodiscard]] inline bool IsEventBufferEmpty() { return _eventBuffer.empty(); };
 	[[nodiscard]] MouseEvent ReadEvent();

@@ -4,7 +4,7 @@
 WindowContainer::WindowContainer()
 {
 	static bool raw_input_inited = false;
-	if(raw_input_inited == false)
+	if (raw_input_inited == false)
 	{
 		RAWINPUTDEVICE rid;
 		rid.usUsagePage = 0x01; //Mouse
@@ -12,7 +12,7 @@ WindowContainer::WindowContainer()
 		rid.dwFlags = 0;
 		rid.hwndTarget = NULL;
 
-		if(RegisterRawInputDevices(&rid, 1, sizeof(rid)) == false)
+		if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == false)
 		{
 			Logger::Log(GetLastError(), "Failed to register raw input device");
 			exit(-1);
@@ -120,11 +120,11 @@ LRESULT WindowContainer::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 	{
 		int x = LOWORD(lParam);
 		int y = HIWORD(lParam);
-		if(GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
 		{
 			_mouse.OnWheelUp(x, y);
 		}
-		else if(GET_WHEEL_DELTA_WPARAM(wParam) < 0)
+		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0)
 		{
 			_mouse.OnWheelDown(x, y);
 		}
@@ -134,13 +134,13 @@ LRESULT WindowContainer::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 	{
 		UINT dataSize = 0;
 		GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, NULL, &dataSize, sizeof(RAWINPUTHEADER));
-		if(dataSize > 0)
+		if (dataSize > 0)
 		{
 			std::unique_ptr<BYTE[]> rawData = std::make_unique<BYTE[]>(dataSize);
-			if(GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawData.get(), &dataSize, sizeof(RAWINPUTHEADER)) == dataSize)
+			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawData.get(), &dataSize, sizeof(RAWINPUTHEADER)) == dataSize)
 			{
 				RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawData.get());
-				if(raw->header.dwType == RIM_TYPEMOUSE)
+				if (raw->header.dwType == RIM_TYPEMOUSE)
 				{
 					_mouse.OnMouseMoveRaw(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
 				}

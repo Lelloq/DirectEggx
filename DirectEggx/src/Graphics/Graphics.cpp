@@ -2,11 +2,11 @@
 
 bool Graphics::Init(HWND hwnd, int width, int height)
 {
-	if(!InitDX(hwnd, width, height))
-	{
+	if (!InitDX(hwnd, width, height))
 		return false;
-	}
 
+	if (!InitShaders())
+		return false;
 
 	return true;
 }
@@ -41,7 +41,7 @@ bool Graphics::InitDX(HWND hwnd, int width, int height)
 
 	scd.SampleDesc.Count = 1;
 	scd.SampleDesc.Quality = 0;
-	
+
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.BufferCount = 1;
 	scd.OutputWindow = hwnd;
@@ -65,7 +65,7 @@ bool Graphics::InitDX(HWND hwnd, int width, int height)
 		NULL,
 		_deviceContext.GetAddressOf());
 
-	if(FAILED(hr))
+	if (FAILED(hr))
 	{
 		Logger::Log("Failed to create D3D11 device and swap chain");
 		return false;
@@ -87,6 +87,54 @@ bool Graphics::InitDX(HWND hwnd, int width, int height)
 	}
 
 	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), NULL);
+
+	return true;
+}
+
+bool Graphics::InitShaders()
+{
+	std::wstring shaderFolder;
+#pragma region ShaderPath
+	if (IsDebuggerPresent() == TRUE)
+	{
+#ifdef _DEBUG
+	#ifdef _WIN64
+		shaderFolder = L"../Bin/x64/Debug/";
+	#else
+		shaderFolder = L"../Bin/x86/Debug/";
+	#endif
+#else
+	#ifdef _WIN64
+		shaderFolder = L"../Bin/x64/Release/";
+	#else
+		shaderFolder = L"../Bin/x86/Release/";
+	#endif
+#endif
+	}
+#pragma endregion
+
+	if (!_vertexShader.Initialize(_device, shaderFolder + L"vertexshader.cso"))
+	{
+		return false;
+	}
+
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
+
+	UINT numElements = ARRAYSIZE(layout);
+
+	HRESULT hr = _device->CreateInputLayout(
+		layout, numElements,
+		_vertexShader.GetBuffer()->GetBufferPointer(), _vertexShader.GetBuffer()->GetBufferSize(),
+		_inputLayout.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		Logger::Log(hr, "Failed to create input layout");
+		return false;
+	}
 
 	return true;
 }

@@ -4,14 +4,13 @@
 #include <wrl/client.h>
 #include <vector>
 
-class AdapterData 
+class AdapterData
 {
 public:
 	AdapterData(IDXGIAdapter* pAdapter);
 	IDXGIAdapter* _pAdapter = nullptr;
 	DXGI_ADAPTER_DESC _description;
 };
-
 
 class AdapterReader
 {

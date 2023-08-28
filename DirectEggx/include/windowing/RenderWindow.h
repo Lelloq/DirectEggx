@@ -10,22 +10,22 @@ public:
 	/**
 	 * \fn bool Init(HINSTANCE hInstance, std::string title, std::string wClass, int width, int height).
 	 * \brief Initialises the window using win32.
-	 * 
+	 *
 	 * \param wc pointer to the window container
 	 * \param hInstance Window instance
 	 * \param title Window title
 	 * \param wClass Window class
 	 * \param width Width
 	 * \param height Height
-	 * \return 
+	 * \return
 	 */
 	bool Init(WindowContainer* wc, HINSTANCE hInstance, std::string title, std::string wClass, int width, int height);
 
 	/**
 	 * \fn bool ProcessMessages().
 	 * \brief Processess input
-	 * 
-	 * \return 
+	 *
+	 * \return
 	 */
 	bool ProcessMessages();
 
@@ -33,7 +33,7 @@ public:
 
 	/**
 	 * \brief Window destructor.
-	 * 
+	 *
 	 */
 	~RenderWindow();
 private:
